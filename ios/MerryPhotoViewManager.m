@@ -26,6 +26,14 @@ RCT_EXPORT_VIEW_PROPERTY(hideShareButton, BOOL)
 
 RCT_EXPORT_VIEW_PROPERTY(onDismiss, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onChange, RCTBubblingEventBlock)
-RCT_EXPORT_VIEW_PROPERTY(onProjectDetails, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onShare, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(enableCollect, BOOL)
 
+RCT_EXPORT_VIEW_PROPERTY(DismissOnCollect, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(onCollect, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onUncollect, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(enableSimilarImages, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(onSimilarImages, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(enableDownload, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(onDownload, RCTBubblingEventBlock)
 @end

@@ -17,10 +17,10 @@
 @property(nonatomic) NSData *imageData;
 @property(nonatomic) UIImage *placeholderImage;
 @property(nonatomic) NSString *imageURL;
-@property(nonatomic) BOOL showProjectDetailButton;
 @property(nonatomic) NSAttributedString *attributedCaptionTitle;
 @property(nonatomic) NSAttributedString *attributedCaptionSummary;
 @property(nonatomic) NSAttributedString *attributedCaptionCredit;
+@property (nonatomic) BOOL isCollected;
 
 @end
 

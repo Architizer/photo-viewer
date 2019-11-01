@@ -109,7 +109,7 @@
             merryPhoto.imageURL = d.url;
         }
         
-        merryPhoto.showProjectDetailButton = d.showProjectDetailButton;
+        merryPhoto.isCollected = d.isCollected;
         
         [msPhotos addObject:merryPhoto];
 
@@ -311,21 +311,65 @@
     [self clean];
 }
 
-- (void)photosViewOpenProjectDetailControllerDidDismiss:(NYTPhotosViewController*)photosViewController
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickShare:(id<NYTPhoto>)photo
 {
-    
-
-    if (self.onProjectDetails) {
-        //[self photosViewControllerDidDismiss:photosViewController];
-
-//        MerryPhotoData* current = self.data[currentPhotoIndex];
-//        if (current != nil) {
-            if (self.onProjectDetails) {
-                self.onProjectDetails(nil);
-            }
+    if (self.onShare) {
+        if (self.onShare) {
+            self.onShare(nil);
         }
-//    }
+    }
+}
 
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickCollectPhoto:(id<NYTPhoto>)photo
+{
+    if (self.onCollect) {
+        if (self.onCollect) {
+            self.onCollect(nil);
+        }
+    }
+}
+
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickUncollectPhoto:(id<NYTPhoto>)photo
+{
+    if (self.onUncollect) {
+        if (self.onUncollect) {
+            self.onUncollect(nil);
+        }
+    }
+}
+
+- (BOOL)photosViewController:(NYTPhotosViewController *)photosViewController shouldDismissOnCollect:(id<NYTPhoto>)photo {
+    return self.DismissOnCollect;
+}
+
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickSimilarImages:(id<NYTPhoto>)photo
+{
+    if (self.onSimilarImages) {
+        if (self.onSimilarImages) {
+            self.onSimilarImages(nil);
+        }
+    }
+}
+
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickDownload:(id<NYTPhoto>)photo
+{
+    if (self.onDownload) {
+        if (self.onDownload) {
+            self.onDownload(nil);
+        }
+    }
+}
+
+- (BOOL)photosViewController:(NYTPhotosViewController *)photosViewController isDownloadEnabled:(id<NYTPhoto>)photo {
+    return self.enableDownload;
+}
+
+- (BOOL)photosViewController:(NYTPhotosViewController *)photosViewController isSimilarImagesEnabled:(id<NYTPhoto>)photo {
+    return self.enableSimilarImages;
+}
+
+- (BOOL)photosViewController:(NYTPhotosViewController *)photosViewController isCollectEnabled:(id<NYTPhoto>)photo {
+    return self.enableCollect;
 }
 
 + (NSAttributedString*)attributedTitleFromString:(NSString*)caption

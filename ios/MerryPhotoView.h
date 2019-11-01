@@ -27,7 +27,15 @@
 @property (nonatomic) BOOL hideStatusBar;
 @property (nonatomic, copy) RCTBubblingEventBlock onDismiss;
 @property (nonatomic, copy) RCTBubblingEventBlock onChange;
-@property (nonatomic, copy) RCTBubblingEventBlock onProjectDetails;
+@property (nonatomic, copy) RCTBubblingEventBlock onShare;
+@property (nonatomic) BOOL DismissOnCollect;
+@property (nonatomic, copy) RCTBubblingEventBlock onCollect;
+@property (nonatomic, copy) RCTBubblingEventBlock onUncollect;
+@property (nonatomic) BOOL enableSimilarImages;
+@property (nonatomic, copy) RCTBubblingEventBlock onSimilarImages;
+@property (nonatomic) BOOL enableDownload;
+@property (nonatomic, copy) RCTBubblingEventBlock onDownload;
+@property (nonatomic) BOOL enableCollect;
 @property (nonatomic) BOOL hideCloseButton;
 @property (nonatomic) BOOL hideShareButton;
 
