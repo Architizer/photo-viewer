@@ -324,7 +324,9 @@
 {
     if (self.onCollect) {
         if (self.onCollect) {
-            self.onCollect(nil);
+            self.onCollect(@{
+                @"photo" : photo
+            });
         }
     }
 }
@@ -333,7 +335,9 @@
 {
     if (self.onUncollect) {
         if (self.onUncollect) {
-            self.onUncollect(nil);
+            self.onUncollect(@{
+                @"photo" : photo
+            });
         }
     }
 }
