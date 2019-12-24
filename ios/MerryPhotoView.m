@@ -311,11 +311,15 @@
     [self clean];
 }
 
-- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickShare:(id<NYTPhoto>)photo
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickShare:(id<NYTPhoto>)photo withPhotoIndex:(NSUInteger)photoIndex
 {
+    MerryPhotoData* current = self.data[photoIndex];
     if (self.onShare) {
         if (self.onShare) {
-            self.onShare(nil);
+            self.onShare(@{
+                @"index" : [NSNumber numberWithInteger:photoIndex],
+                @"photo" : current
+            });
         }
     }
 }
@@ -323,7 +327,6 @@
 - (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickCollectPhoto:(id<NYTPhoto>)photo withPhotoIndex:(NSUInteger)photoIndex
 {
     MerryPhotoData* current = self.data[photoIndex];
-    
     if (self.onCollect) {
         if (self.onCollect) {
             self.onCollect(@{
@@ -338,7 +341,6 @@
 {
     
     MerryPhotoData* current = self.data[photoIndex];
-
     if (self.onUncollect) {
         if (self.onUncollect) {
             self.onUncollect(@{
@@ -353,20 +355,28 @@
     return self.DismissOnCollect;
 }
 
-- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickSimilarImages:(id<NYTPhoto>)photo
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickSimilarImages:(id<NYTPhoto>)photo withPhotoIndex:(NSUInteger)photoIndex
 {
+    MerryPhotoData* current = self.data[photoIndex];
     if (self.onSimilarImages) {
         if (self.onSimilarImages) {
-            self.onSimilarImages(nil);
+            self.onSimilarImages(@{
+                @"index" : [NSNumber numberWithInteger:photoIndex],
+                @"photo" : current
+            });
         }
     }
 }
 
-- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickDownload:(id<NYTPhoto>)photo
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickDownload:(id<NYTPhoto>)photo withPhotoIndex:(NSUInteger)photoIndex
 {
+    MerryPhotoData* current = self.data[photoIndex];
     if (self.onDownload) {
         if (self.onDownload) {
-            self.onDownload(nil);
+            self.onDownload(@{
+                @"index" : [NSNumber numberWithInteger:photoIndex],
+                @"photo" : current
+            });
         }
     }
 }
