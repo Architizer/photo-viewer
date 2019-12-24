@@ -320,23 +320,30 @@
     }
 }
 
-- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickCollectPhoto:(id<NYTPhoto>)photo
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickCollectPhoto:(id<NYTPhoto>)photo withPhotoIndex:(NSUInteger)photoIndex
 {
+    MerryPhotoData* current = self.data[photoIndex];
+    
     if (self.onCollect) {
         if (self.onCollect) {
             self.onCollect(@{
-                @"photo" : photo
+                @"index" : [NSNumber numberWithInteger:photoIndex],
+                @"photo" : current
             });
         }
     }
 }
 
-- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickUncollectPhoto:(id<NYTPhoto>)photo
+- (void)photosViewController:(NYTPhotosViewController *)photosViewController didClickUncollectPhoto:(id<NYTPhoto>)photo withPhotoIndex:(NSUInteger)photoIndex
 {
+    
+    MerryPhotoData* current = self.data[photoIndex];
+
     if (self.onUncollect) {
         if (self.onUncollect) {
             self.onUncollect(@{
-                @"photo" : photo
+                @"index" : [NSNumber numberWithInteger:photoIndex],
+                @"photo" : current
             });
         }
     }
