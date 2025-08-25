@@ -156,6 +156,12 @@
 - (void)updatePhotoAtIndex:(NYTPhotosViewController*)photosViewController
                      Index:(NSUInteger)photoIndex
 {
+    // now you can pass the # of photos you need to pre-load
+    [self getCurrent_Previous_NextPhoto:photoIndex photosViewController:photosViewController numberOfPreLoadImages:2];
+}
+
+- (void)getImageForIndex:(NSUInteger)photoIndex photosViewController:(NYTPhotosViewController *)photosViewController
+{
     NSInteger current = (unsigned long)photoIndex;
     MerryPhoto* currentPhoto = [self.dataSource.photos objectAtIndex:current];
     MerryPhotoData* d = self.reactPhotos[current];
@@ -172,7 +178,6 @@
         completionBlock:^(NSError* error, UIImage* image) {
             if (image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    // https://github.com/merryjs/photo-viewer/issues/11
                     // We convert RCTAnimatedImage to UIAnimatedImage so that UIImageView can display gif
                     if ([image isKindOfClass:[RCTAnimatedImage class]]) {
                         RCTAnimatedImage *animatedImage = (RCTAnimatedImage *)image;
@@ -188,10 +193,27 @@
                     }
 
                     [photosViewController updatePhoto:currentPhoto];
-
                 });
             }
         }];
+}
+
+- (void)getCurrent_Previous_NextPhoto:(NSUInteger)photoIndex
+               photosViewController:(NYTPhotosViewController *)photosViewController
+             numberOfPreLoadImages:(int)preLoadImagesCount
+{
+    [self getImageForIndex:photoIndex photosViewController:photosViewController];
+
+    for (int i = 1; i <= preLoadImagesCount; i++) {
+        // Preload next image if exists
+        if ((int)photoIndex + i < (int)self.dataSource.photos.count) {
+            [self getImageForIndex:photoIndex + i photosViewController:photosViewController];
+        }
+        // Preload previous image if exists
+        if ((int)photoIndex - i >= 0) {
+            [self getImageForIndex:photoIndex - i photosViewController:photosViewController];
+        }
+    }
 }
 
 #pragma mark - NYTPhotosViewControllerDelegate
