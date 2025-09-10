@@ -27,5 +27,5 @@ RCT_EXPORT_VIEW_PROPERTY(hideTitle, BOOL)
 
 RCT_EXPORT_VIEW_PROPERTY(onDismiss, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onChange, RCTBubblingEventBlock)
-
+RCT_EXPORT_VIEW_PROPERTY(onProjectDetails, RCTBubblingEventBlock)
 @end
