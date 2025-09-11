@@ -143,6 +143,8 @@
                                        completion:nil];
         if (initialPhoto >= 0) {
             [self updatePhotoAtIndex:photosViewController Index:initialPhoto];
+            // Preload current, previous, and next images for initial photo
+            [self getCurrent_Previous_NextPhoto:initialPhoto photosViewController:photosViewController numberOfPreLoadImages:1];
         }
         if (self.hideStatusBar) {
             [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];
@@ -299,6 +301,10 @@
     if (!photo.image || !photo.imageData) {
         [self updatePhotoAtIndex:photosViewController Index:photoIndex];
     }
+    
+    // Preload current, previous, and next images
+    [self getCurrent_Previous_NextPhoto:photoIndex photosViewController:photosViewController numberOfPreLoadImages:1];
+    
     [self onNavigateToPhoto:photosViewController Index:photoIndex];
 }
 
