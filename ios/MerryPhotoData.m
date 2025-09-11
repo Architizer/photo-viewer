@@ -16,6 +16,7 @@ NSString* const kMerryPhotoDataTitle = @"title";
 NSString* const kMerryPhotoDataTitleColor = @"titleColor";
 NSString* const kMerryPhotoSource = @"source";
 NSString* const kMerryPhotoURL = @"url";
+NSString* const kMerryPhotoIsCollected = @"isCollected";
 
 @interface MerryPhotoData ()
 @end
@@ -47,6 +48,9 @@ NSString* const kMerryPhotoURL = @"url";
 
     if (![dictionary[kMerryPhotoURL] isKindOfClass:[NSNull class]]) {
         self.url = dictionary[kMerryPhotoURL];
+    }
+    if (![dictionary[kMerryPhotoIsCollected] isKindOfClass:[NSNull class]]) {
+        self.isCollected = [dictionary[kMerryPhotoIsCollected] boolValue];
     }
     return self;
 }

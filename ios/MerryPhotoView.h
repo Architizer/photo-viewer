@@ -28,9 +28,17 @@
 @property (nonatomic, copy) RCTDirectEventBlock onDismiss;
 @property (nonatomic, copy) RCTBubblingEventBlock onChange;
 @property (nonatomic, copy) RCTBubblingEventBlock onProjectDetails;
+@property (nonatomic, copy) RCTBubblingEventBlock onShare;
+@property (nonatomic, copy) RCTBubblingEventBlock onCollect;
+@property (nonatomic, copy) RCTBubblingEventBlock onUncollect;
+@property (nonatomic, copy) RCTBubblingEventBlock onSimilarImages;
 @property (nonatomic) BOOL hideCloseButton;
 @property (nonatomic) BOOL hideShareButton;
 @property (nonatomic) BOOL hideTitle;
+@property (nonatomic) BOOL enableCollect;
+@property (nonatomic) BOOL dismissOnCollect;
+@property (nonatomic) BOOL enableSimilarImages;
+@property (nonatomic) BOOL showProjectDetailButton;
 
 // Initializing with the event dispatcher allows us to communicate with JS
 //- (instancetype)initWithEventDispatcher:(RCTEventDispatcher*)eventDispatcher NS_DESIGNATED_INITIALIZER;

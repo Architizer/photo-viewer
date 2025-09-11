@@ -107,7 +107,8 @@
 
         if (d.url) {
             merryPhoto.imageURL = d.url;
-        }        }
+        }
+        }
 
         [msPhotos addObject:merryPhoto];
 
@@ -307,12 +308,19 @@
 - (void)onNavigateToPhoto:(NYTPhotosViewController*)photosViewController
                     Index:(NSUInteger)photoIndex
 {
-    MerryPhotoData* current = self.data[photoIndex];
+    MerryPhotoData* current = self.reactPhotos[photoIndex];
 
     if (self.onChange && current != nil) {
         self.onChange(@{
             @"index" : [NSNumber numberWithInteger:photoIndex],
-            @"photo" : current
+            @"photo" : @{
+                @"title" : current.title ?: @"",
+                @"summary" : current.summary ?: @"",
+                @"summaryColor" : current.summaryColor ?: @"",
+                @"titleColor" : current.titleColor ?: @"",
+                @"source" : current.source ?: @{},
+                @"isCollected" : [NSNumber numberWithBool:current.isCollected]
+            }
         });
     }
 }
@@ -332,10 +340,23 @@
 }
 - (BOOL)photosViewController:(NYTPhotosViewController*)photosViewController handleLongPressForPhoto:(id<NYTPhoto>)photo withGestureRecognizer:(UILongPressGestureRecognizer*)longPressGestureRecognizer
 {
-
-    if ((photosViewController.currentlyDisplayedPhoto.image || photosViewController.currentlyDisplayedPhoto.imageData)) {
-        UIImage* image = photosViewController.currentlyDisplayedPhoto.image ? photosViewController.currentlyDisplayedPhoto.image : [UIImage imageWithData:photosViewController.currentlyDisplayedPhoto.imageData];
-        UIActivityViewController* activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[ image ] applicationActivities:nil];
+    // Get the current photo data to access the custom URL
+    NSInteger currentIndex = [self.dataSource.photos indexOfObject:photosViewController.currentlyDisplayedPhoto];
+    if (currentIndex != NSNotFound && currentIndex < self.reactPhotos.count) {
+        MerryPhotoData* currentData = self.reactPhotos[currentIndex];
+        
+        // Use custom URL for sharing if available, otherwise fall back to image
+        NSArray* activityItems;
+        if (currentData.url && currentData.url.length > 0) {
+            activityItems = @[ currentData.url ];
+        } else if ((photosViewController.currentlyDisplayedPhoto.image || photosViewController.currentlyDisplayedPhoto.imageData)) {
+            UIImage* image = photosViewController.currentlyDisplayedPhoto.image ? photosViewController.currentlyDisplayedPhoto.image : [UIImage imageWithData:photosViewController.currentlyDisplayedPhoto.imageData];
+            activityItems = @[ image ];
+        } else {
+            return NO;
+        }
+        
+        UIActivityViewController* activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
 
         activityViewController.completionWithItemsHandler = ^(NSString* __nullable activityType, BOOL completed, NSArray* __nullable returnedItems, NSError* __nullable activityError) {
             if (completed && [photosViewController.delegate respondsToSelector:@selector(photosViewController:actionCompletedWithActivityType:)]) {
@@ -367,7 +388,7 @@
    //     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:NO];
    // }
     if (self.onProjectDetails) {
-        MerryPhotoData* current = self.data[0];
+        MerryPhotoData* current = self.reactPhotos[0];
         
         if (self.onProjectDetails) {
             self.onProjectDetails(@{

@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSString* url;
 @property (nonatomic, strong) NSString* titleColor;
 @property (nonatomic) RCTImageSource* source;
+@property (nonatomic) BOOL isCollected;
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary;
 @end
 
