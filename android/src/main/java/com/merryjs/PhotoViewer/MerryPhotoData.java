@@ -10,7 +10,9 @@ import com.facebook.react.views.imagehelper.ImageSource;
 public class MerryPhotoData {
     public ReadableMap source;
     public String title;
+    public String url;
     public String summary;
     public int titleColor;
     public int summaryColor;
+    public boolean isCollected;
 }

@@ -1,4 +1,3 @@
-
 package com.merryjs.PhotoViewer;
 
 
@@ -83,10 +82,16 @@ public class MerryPhotoViewManager extends SimpleViewManager<MerryPhotoView> {
                 }
                 if (rm.hasKey("title")) {
                     merryPhotoData.title = rm.getString("title");
+                }
+                if (rm.hasKey("url")) {
+                    merryPhotoData.url = rm.getString("url");
 
                 }
                 if (rm.hasKey("titleColor")) {
                     merryPhotoData.titleColor = rm.getInt("titleColor");
+                }
+                if (rm.hasKey("isCollected")) {
+                    merryPhotoData.isCollected = rm.getBoolean("isCollected");
                 }
                 list.add(merryPhotoData);
 
@@ -127,9 +132,24 @@ public class MerryPhotoViewManager extends SimpleViewManager<MerryPhotoView> {
         merryPhotoView.setHideCloseButton(prop);
     }
 
-    @ReactProp(name = "hideTitle", defaultBoolean = false)
-    public void setHideTitle(MerryPhotoView merryPhotoView, Boolean prop) {
-        merryPhotoView.setHideTitle(prop);
+    @ReactProp(name = "enableCollect", defaultBoolean = false)
+    public void setEnableCollect(MerryPhotoView merryPhotoView, Boolean prop) {
+        merryPhotoView.setEnableCollect(prop);
+    }
+
+    @ReactProp(name = "DismissOnCollect", defaultBoolean = false)
+    public void setDismissOnCollect(MerryPhotoView merryPhotoView, Boolean prop) {
+        merryPhotoView.setDismissOnCollect(prop);
+    }
+
+    @ReactProp(name = "enableSimilarImages", defaultBoolean = false)
+    public void setEnableSimilarImages(MerryPhotoView merryPhotoView, Boolean prop) {
+        merryPhotoView.setEnableSimilarImages(prop);
+    }
+
+    @ReactProp(name = "showProjectDetailButton", defaultBoolean = false)
+    public void setShowProjectDetailButton(MerryPhotoView merryPhotoView, Boolean prop) {
+        merryPhotoView.setShowProjectDetailButton(prop);
     }
 
     @Nullable
@@ -137,6 +157,11 @@ public class MerryPhotoViewManager extends SimpleViewManager<MerryPhotoView> {
     public Map<String, Object> getExportedCustomDirectEventTypeConstants() {
         return MapBuilder.<String, Object>builder()
                 .put("onChange", MapBuilder.of("registrationName", "onChange"))
-                .put("onDismiss", MapBuilder.of("registrationName", "onDismiss")).build();
+                .put("onDismiss", MapBuilder.of("registrationName", "onDismiss"))
+                .put("onShare", MapBuilder.of("registrationName", "onShare"))
+                .put("onCollect", MapBuilder.of("registrationName", "onCollect"))
+                .put("onUncollect", MapBuilder.of("registrationName", "onUncollect"))
+                .put("onSimilarImages", MapBuilder.of("registrationName", "onSimilarImages"))
+                .build();
     }
 }
