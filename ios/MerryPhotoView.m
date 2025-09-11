@@ -338,6 +338,38 @@
         [popup presentPopoverFromRect:CGRectMake([self getRootView].view.frame.size.width/2, [self getRootView].view.frame.size.height/2, 0, 0)inView:[self getRootView].view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
 }
+- (BOOL)photosViewController:(NYTPhotosViewController*)photosViewController handleActionButtonTappedForPhoto:(id<NYTPhoto>)photo
+{
+    // Get the current photo data to access the custom URL
+    NSInteger currentIndex = [self.dataSource.photos indexOfObject:photo];
+    if (currentIndex != NSNotFound && currentIndex < self.reactPhotos.count) {
+        MerryPhotoData* currentData = self.reactPhotos[currentIndex];
+        
+        // Use custom URL for sharing if available, otherwise fall back to image
+        NSArray* activityItems;
+        if (currentData.url && currentData.url.length > 0) {
+            activityItems = @[ currentData.url ];
+        } else if ((photo.image || photo.imageData)) {
+            UIImage* image = photo.image ? photo.image : [UIImage imageWithData:photo.imageData];
+            activityItems = @[ image ];
+        } else {
+            return NO;
+        }
+        
+        UIActivityViewController* activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+
+        activityViewController.completionWithItemsHandler = ^(NSString* __nullable activityType, BOOL completed, NSArray* __nullable returnedItems, NSError* __nullable activityError) {
+            if (completed && [photosViewController.delegate respondsToSelector:@selector(photosViewController:actionCompletedWithActivityType:)]) {
+                [photosViewController.delegate photosViewController:photosViewController actionCompletedWithActivityType:activityType];
+            }
+        };
+
+        [self displayActivityViewController:activityViewController animated:YES];
+        return YES; // Return YES to indicate we handled the action
+    }
+    return NO; // Return NO to use default behavior
+}
+
 - (BOOL)photosViewController:(NYTPhotosViewController*)photosViewController handleLongPressForPhoto:(id<NYTPhoto>)photo withGestureRecognizer:(UILongPressGestureRecognizer*)longPressGestureRecognizer
 {
     // Get the current photo data to access the custom URL
