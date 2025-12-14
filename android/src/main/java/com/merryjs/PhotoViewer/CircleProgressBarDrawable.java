@@ -1,19 +1,19 @@
 package com.merryjs.PhotoViewer;
 
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
-
-import com.facebook.drawee.drawable.ProgressBarDrawable;
+import android.graphics.drawable.Drawable;
 
 // Source https://github.com/facebook/fresco/blob/master/samples/contrib/com/facebook/drawee/drawable/CircleProgressBarDrawable.java
-public class CircleProgressBarDrawable extends ProgressBarDrawable {
+public class CircleProgressBarDrawable extends Drawable {
 	private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 	private int mLevel = 0;
 	private int maxLevel = 10000;
-
+	private boolean hideWhenZero = true;
 
 	@Override
 	protected boolean onLevelChange(int level) {
@@ -29,6 +29,32 @@ public class CircleProgressBarDrawable extends ProgressBarDrawable {
 		}
 		drawBar(canvas, maxLevel, 0xFFFFFFFF);
 		drawBar(canvas, mLevel, 0xDDDDDDDD);
+	}
+
+	@Override
+	public void setAlpha(int alpha) {
+		mPaint.setAlpha(alpha);
+		invalidateSelf();
+	}
+
+	@Override
+	public void setColorFilter(ColorFilter colorFilter) {
+		mPaint.setColorFilter(colorFilter);
+		invalidateSelf();
+	}
+
+	@Override
+	public int getOpacity() {
+		return PixelFormat.TRANSLUCENT;
+	}
+
+	public boolean getHideWhenZero() {
+		return hideWhenZero;
+	}
+
+	public void setHideWhenZero(boolean hideWhenZero) {
+		this.hideWhenZero = hideWhenZero;
+		invalidateSelf();
 	}
 
 	private void drawBar(Canvas canvas, int level, int color) {
